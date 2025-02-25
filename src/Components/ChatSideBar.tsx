@@ -1,7 +1,6 @@
 export const ChatSideBar: React.FC = () => {
     return (
         <div className="flex h-screen">
-            {/* Sidebar */}
             <div className="w-1/5 p-6 border-r">
                 <div className="flex justify-between border-b py-4">
                     <div className="flex items-center space-x-2">
@@ -38,10 +37,7 @@ export const ChatSideBar: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Khu vực chat */}
             <div className="w-4/5 flex flex-col h-screen">
-                {/* Nội dung chat */}
                 <div className="flex-1 overflow-y-auto p-6">
                     <div className="w-1/2 p-4 bg-secondary rounded-lg">
                         <div className="flex items-center space-x-2 mb-2">
@@ -73,8 +69,6 @@ export const ChatSideBar: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Thanh nhập tin nhắn */}
                 <div className="p-4 bg-white border-t border-gray-300 sticky bottom-0 left-0 w-full">
                     <div className="relative">
                         <textarea
