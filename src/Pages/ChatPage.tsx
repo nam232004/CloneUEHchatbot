@@ -1,12 +1,8 @@
 import React from "react";
-import { ChatSideBar } from "../Components/ChatSideBar";
+import { ChatSideBar } from "../Components/Chat/ChatSideBar";
 
-const Test: React.FC = () => {
-  return (
-    <>
-      <ChatSideBar />
-    </>
-  );
+const ChatPage: React.FC = () => {
+  return <ChatSideBar />;
 };
 
-export default Test;
+export default ChatPage;
