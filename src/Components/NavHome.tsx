@@ -31,7 +31,6 @@ export const NavHome = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     useEffect(() => {
-        // Tìm index của mục có active: true
         const defaultIndex = NavItems.findIndex(item => item.active);
         if (defaultIndex !== -1) {
             setActiveIndex(defaultIndex);
