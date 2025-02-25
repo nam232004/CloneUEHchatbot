@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Store";
-import { addChat, removeChat } from "../../Store/ChatSlide";
+import { addChat, removeChat } from "../../Store/ChatSlice";
 import { InputChatBox } from "./InputChatBox";
 import { ChatBoxMain } from "./ChatBoxMain";
 
