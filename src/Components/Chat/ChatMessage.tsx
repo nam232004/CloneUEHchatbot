@@ -1,28 +1,28 @@
 import { FC } from 'react';
 import { ChatMessageProps } from '../Types/Chat';
 
-export const ChatMessage: FC<ChatMessageProps> = ({ id, message, sender }) => {
+export const ChatMessage: FC<ChatMessageProps> = ({ id, message, role }) => {
 
     const handleCopy = () => {
         navigator.clipboard.writeText(message);
     };
 
     return (
-        <div className={`flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
+        <div className={`flex ${role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
             <div className={`max-w-[95%] md:max-w-[70%] p-4 rounded-lg
-                ${sender === 'assistant'
+                ${role === 'botchat'
                     ? 'bg-secondary'
                     : 'bg-messageUser'}`}
             >
                 <div className="flex items-center space-x-2 mb-2">
-                    <img src={sender === 'assistant' ? 'img/logo.png' : 'img/avt.png'} alt="avt" className="w-8 h-8 rounded-full" />
+                    <img src={role === 'botchat' ? 'img/logo.png' : 'img/avt.png'} alt="avt" className="w-8 h-8 rounded-full" />
                     <span >Assistant</span>
                 </div>
 
                 <div className="w-full">
                     <pre className="whitespace-pre-wrap break-all text-sm sm:text-base">{message}</pre>
                 </div>
-                {sender !== 'user' && (
+                {role !== 'user' && (
                     <div className={`flex justify-end space-x-4 mt-4 text-gray-500`}>
                         <button title="copy" onClick={handleCopy}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">

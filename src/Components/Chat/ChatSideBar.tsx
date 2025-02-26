@@ -11,9 +11,15 @@ export const ChatSideBar: React.FC = () => {
     const dispatch = useDispatch();
     const [isSidebarReponsive, setIsSidebarReponsive] = useState(false);
     const { chatHistories, currentChatId } = useSelector((state: RootState) => state.chat);
+    const [showOptions, setShowOptions] = useState(false);
+
+    const handleShowOptions = () => {
+        setShowOptions(true);
+    };
 
     const handleCreateNewChat = () => {
         dispatch(createNewChat());
+        setShowOptions(false);
     };
 
     const handleSelectChat = (chatId: string) => {
@@ -33,7 +39,7 @@ export const ChatSideBar: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (chatHistories.length === 0) {
+        if (chatHistories.length < 1) {
             dispatch(createNewChat());
         }
     }, [chatHistories, dispatch]);
@@ -41,8 +47,8 @@ export const ChatSideBar: React.FC = () => {
 
     return (
         <div className="flex h-screen ">
-            <div className={`${isSidebarReponsive ? 'block' : 'hidden'}  md:block w-full justify-between md:w-1/5 p-6 border-r`}>
-                <div className="flex justify-between border-b py-4">
+            <div className={`${isSidebarReponsive ? 'block' : 'hidden'} relative md:block w-full justify-between md:w-1/5 p-6 border-r`}>
+                <div className="flex justify-between border-b py-4 ">
                     <div className="hidden md:flex items-center space-x-2">
                         <span className="font-bold whitespace-nowrap">Lịch sử chat</span>
 
@@ -51,9 +57,9 @@ export const ChatSideBar: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="flex justify-end w-full items-center">
+                    <div className=" flex justify-end w-full items-center">
                         <button
-                            onClick={handleCreateNewChat}
+                            onClick={handleShowOptions}
                             title="create new chat"
                             className={`
                                     flex-1 md:flex-none transition-all duration-300 p-2 bg-primary text-white
@@ -75,7 +81,6 @@ export const ChatSideBar: React.FC = () => {
                         </button>
 
 
-
                         <button
                             onClick={() => setIsSidebarReponsive(false)}
                             className="md:hidden p-3 hover:bg-secondary/80 rounded-full ml-2"
@@ -88,6 +93,20 @@ export const ChatSideBar: React.FC = () => {
                         </button>
                     </div>
                 </div>
+                {showOptions && (
+                    <div
+                        className="absolute top-full left-0 right-0 bg-white border border-gray-300 text-gray-800 p-3 rounded-lg shadow-md text-center z-20"
+                    >
+                        <button
+                            onClick={handleCreateNewChat}
+                            className="w-full text-primary font-bold py-2 hover:bg-gray-200 rounded-md transition-all"
+                        >
+                            Tư vấn tuyển sinh
+                        </button>
+                    </div>
+                )}
+
+
 
                 <div className="mt-4 h-[calc(100vh-120px)] overflow-y-auto scrollbar-smooth scrollbar-thin">
                     {chatHistories.map((chat) => (

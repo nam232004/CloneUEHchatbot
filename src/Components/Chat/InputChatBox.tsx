@@ -22,7 +22,7 @@ export const InputChatBox: React.FC<InputChatBoxProps> = ({ currentChatId }) => 
             message: {
                 id: uuidv4(),
                 message: message.trim(),
-                sender: 'user',
+                role: 'user',
                 timestamp: Date.now()
             }
         }));
@@ -33,7 +33,7 @@ export const InputChatBox: React.FC<InputChatBoxProps> = ({ currentChatId }) => 
                 message: {
                     id: uuidv4(),
                     message: "đây là tin nhắn hehe",
-                    sender: 'assistant',
+                    role: 'botchat',
                     timestamp: Date.now()
                 }
             }));

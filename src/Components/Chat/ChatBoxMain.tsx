@@ -14,7 +14,7 @@ export const ChatBoxMain: React.FC<ChatBoxMainProps> = ({ onOpenSidebar }) => {
             <ChatMessage
                 id="welcome"
                 message="Xin chào! Tôi có hehe gì cho bạn aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?"
-                sender="assistant"
+                role="botchat"
             />
 
             {currentChat?.messages.map((msg) => (
@@ -22,7 +22,7 @@ export const ChatBoxMain: React.FC<ChatBoxMainProps> = ({ onOpenSidebar }) => {
                     key={msg.id}
                     id={msg.id}
                     message={msg.message}
-                    sender={msg.sender}
+                    role={msg.role}
                 />
             ))}
         </div>

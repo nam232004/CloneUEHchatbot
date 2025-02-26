@@ -1,7 +1,7 @@
 export interface Chat {
     id: string;
     message: string;
-    sender: 'user' | 'assistant';
+    role: 'user' | 'botchat';
     timestamp: number;
 }
 
@@ -20,7 +20,7 @@ export interface ChatState {
 export interface ChatMessageProps {
     id: string;
     message: string;
-    sender: 'user' | 'assistant';
+    role: 'user' | 'botchat';
 }
 
 export interface InputChatBoxProps {
