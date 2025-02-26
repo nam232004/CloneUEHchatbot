@@ -71,7 +71,7 @@ export const ChatSideBar: React.FC = () => {
 
                         <button
                             onClick={() => setIsSidebarReponsive(false)}
-                            className="md:hidden py-3 px-4 hover:bg-secondary/80 rounded-lg ml-2"
+                            className="md:hidden p-3 hover:bg-secondary/80 rounded-full ml-2"
                             title="Quay về"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
