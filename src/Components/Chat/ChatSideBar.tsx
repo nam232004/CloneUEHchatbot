@@ -32,6 +32,13 @@ export const ChatSideBar: React.FC = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        if (chatHistories.length === 0) {
+            dispatch(createNewChat());
+        }
+    }, [chatHistories, dispatch]);
+
+
     return (
         <div className="flex h-screen ">
             <div className={`${isSidebarReponsive ? 'block' : 'hidden'}  md:block w-full justify-between md:w-1/5 p-6 border-r`}>

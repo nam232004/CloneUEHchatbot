@@ -24,7 +24,6 @@ const chatSlice = createSlice({
       const chat = state.chatHistories.find(c => c.id === action.payload.chatId);
       if (chat) {
         chat.messages.push(action.payload.message);
-        // Cập nhật title nếu là tin nhắn đầu tiên từ user
         if (chat.title === "Cuộc trò chuyện mới" && action.payload.message.sender === 'user') {
           chat.title = action.payload.message.message.slice(0, 30) + (action.payload.message.message.length > 30 ? "..." : "");
         }
