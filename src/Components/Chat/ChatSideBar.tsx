@@ -119,7 +119,7 @@ export const ChatSideBar: React.FC = () => {
                             <div className="flex items-center justify-between">
                                 <span className="font-bold">{chat.title}</span>
                                 <button
-                                    className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#eeeeeee] rounded-full p-1"
+                                    className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-secondary/80 rounded-full p-1"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         dispatch(removeChat(chat.id));
