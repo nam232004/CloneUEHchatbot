@@ -16,7 +16,7 @@ export const ChatMessage: FC<ChatMessageProps> = ({ id, message, role }) => {
             >
                 <div className="flex items-center space-x-2 mb-2">
                     <img src={role === 'botchat' ? 'img/logo.png' : 'img/avt.png'} alt="avt" className="w-8 h-8 rounded-full" />
-                    <span >Assistant</span>
+                    <span >{role === 'botchat' ? 'Siêu trí tuệ nhân tạo xấu xa' : 'Nam hehe'}</span>
                 </div>
 
                 <div className="w-full">
