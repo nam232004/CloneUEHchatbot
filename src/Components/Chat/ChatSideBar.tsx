@@ -13,18 +13,18 @@ export const ChatSideBar: React.FC = () => {
     const { chatHistories, currentChatId } = useSelector((state: RootState) => state.chat);
     const [showOptions, setShowOptions] = useState(false);
 
-    const handleShowOptions = () => {
-        setShowOptions(true);
-    };
+    // const handleShowOptions = () => {
+    //     setShowOptions(true);
+    // };
 
     const handleCreateNewChat = () => {
         dispatch(createNewChat());
-        setShowOptions(false);
+        // setShowOptions(false);
     };
 
     const handleSelectChat = (chatId: string) => {
         dispatch(setCurrentChat(chatId));
-        setIsSidebarReponsive(false);
+        setShowOptions(false);
     };
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export const ChatSideBar: React.FC = () => {
 
                     <div className=" flex justify-end w-full items-center">
                         <button
-                            onClick={handleShowOptions}
+                            onClick={handleCreateNewChat}
                             title="create new chat"
                             className={`
                                     flex-1 md:flex-none transition-all duration-300 p-2 bg-primary text-white
