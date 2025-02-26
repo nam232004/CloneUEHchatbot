@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface NavState {
-    activeIndex: number | null;
-}
+import { NavState } from "../Components/Types/Nav";
 
 const initialState: NavState = {
     activeIndex: null,

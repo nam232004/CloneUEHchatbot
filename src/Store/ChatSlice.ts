@@ -1,31 +1,46 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface Chat {
-  id: string;
-  title: string;
-  content: string;
-}
-
-interface ChatState {
-  chats: Chat[];
-}
+import { ChatState, Chat, ChatHistory } from "../Components/Types/Chat";
 
 const initialState: ChatState = {
-  chats: []
+  chatHistories: [],
+  currentChatId: null
 };
 
 const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    addChat: (state, action: PayloadAction<Chat>) => {
-      state.chats.push(action.payload);
+    createNewChat: (state) => {
+      const newChat: ChatHistory = {
+        id: Date.now().toString(),
+        title: "Cuộc trò chuyện mới",
+        messages: [],
+        timestamp: Date.now()
+      };
+      state.chatHistories.unshift(newChat);
+      state.currentChatId = newChat.id;
+    },
+    addMessage: (state, action: PayloadAction<{ chatId: string; message: Chat }>) => {
+      const chat = state.chatHistories.find(c => c.id === action.payload.chatId);
+      if (chat) {
+        chat.messages.push(action.payload.message);
+        // Cập nhật title nếu là tin nhắn đầu tiên từ user
+        if (chat.title === "Cuộc trò chuyện mới" && action.payload.message.sender === 'user') {
+          chat.title = action.payload.message.message.slice(0, 30) + (action.payload.message.message.length > 30 ? "..." : "");
+        }
+      }
     },
     removeChat: (state, action: PayloadAction<string>) => {
-      state.chats = state.chats.filter(chat => chat.id !== action.payload);
+      state.chatHistories = state.chatHistories.filter(chat => chat.id !== action.payload);
+      if (state.currentChatId === action.payload) {
+        state.currentChatId = state.chatHistories[0]?.id || null;
+      }
+    },
+    setCurrentChat: (state, action: PayloadAction<string>) => {
+      state.currentChatId = action.payload;
     }
   }
 });
 
-export const { addChat, removeChat } = chatSlice.actions;
+export const { createNewChat, addMessage, removeChat, setCurrentChat } = chatSlice.actions;
 export default chatSlice.reducer;

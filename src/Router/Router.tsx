@@ -10,7 +10,7 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [
             { index: true, element: <ChatPage /> },
-            { path: "chatPage", element: <ChatPage /> },
+            { path: "chat", element: <ChatPage /> },
             { path: "agents", element: <AgentPage /> },
         ],
     },

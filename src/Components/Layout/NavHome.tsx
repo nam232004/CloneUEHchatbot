@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, RefObject } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { AppDispatch, RootState } from "../../Store";
 import { setActiveIndex } from "../../Store/NavSlice";
-
-interface NavItem {
-    name: string;
-    icon: string;
-    to: string;
-}
+import { useClickOutside } from "../Hooks/HandleOutsideClick";
+import { NavItem } from "../Types/Nav";
 
 const NavItems: NavItem[] = [
     {
         name: "Chat",
         icon: "M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z",
-        to: "/chatPage"
+        to: "/chat"
     },
     {
         name: "Agents",
@@ -35,11 +31,19 @@ export const NavHome = () => {
     const location = useLocation();
     const dispatch = useDispatch<AppDispatch>();
     const activeIndex = useSelector((state: RootState) => state.nav.activeIndex);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const navDropdownRef = useRef<HTMLDivElement>(null);
+
+    useClickOutside(dropdownRef as RefObject<HTMLElement>, () => setIsOpen(false));
+    useClickOutside(navDropdownRef as RefObject<HTMLElement>, () => setIsOpenNav(false));
+
 
     useEffect(() => {
         const currentIndex = NavItems.findIndex(item => item.to === location.pathname);
         dispatch(setActiveIndex(currentIndex !== -1 ? currentIndex : null));
     }, [location.pathname, dispatch]);
+
+
 
     return (
         <nav className="flex items-center justify-between px-6 py-2 bg-white text-primary shadow-md font-bold sticky top-0 z-10 h-16">
@@ -52,31 +56,43 @@ export const NavHome = () => {
             </div>
 
             {/* Dropdown responsiveeeeee */}
-            <div className="md:hidden flex items-center space-x-2 justify-center" onClick={() => setIsOpenNav(!isOpenNav)}>
-                <p>Chat</p>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
-            </div>
-
-            {/* Menu responsive */}
-            {isOpenNav && (
-                <div className="absolute left-1/2 top-[70px] transform -translate-x-1/2 bg-white shadow-lg rounded-lg border font-medium cursor-auto w-48">
-                    {NavItems.map((item, index) => (
-                        <Link
-                            key={index}
-                            to={item.to}
-                            onClick={() => setIsOpenNav(false)}
-                            className="flex items-center space-x-2 px-4 py-2 hover:bg-[#f26f33] hover:text-white"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                            </svg>
-                            <span>{item.name}</span>
-                        </Link>
-                    ))}
+            <div className="md:hidden relative">
+                <div
+                    className="flex items-center space-x-2 justify-center cursor-pointer"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setIsOpenNav(!isOpenNav);
+                    }}
+                >
+                    <p>Chat</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
                 </div>
-            )}
+
+                {/* Menu responsive */}
+                {isOpenNav && (
+                    <div
+                        ref={navDropdownRef}
+                        className="absolute left-1/2 top-12 transform -translate-x-1/2 bg-white shadow-lg rounded-lg border font-medium cursor-auto w-48"
+                        onClick={(e) => e.stopPropagation()} // Thêm dòng này
+                    >
+                        {NavItems.map((item, index) => (
+                            <Link
+                                key={index}
+                                to={item.to}
+                                onClick={() => setIsOpenNav(false)}
+                                className="flex items-center space-x-2 px-4 py-2 hover:bg-[#f26f33] hover:text-white"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                                </svg>
+                                <span>{item.name}</span>
+                            </Link>
+                        ))}
+                    </div>
+                )}
+            </div>
 
             <div className="hidden md:flex items-center space-x-4 gap-2">
                 {NavItems.map((item, index) => (
@@ -94,25 +110,31 @@ export const NavHome = () => {
                 ))}
             </div>
 
-            <div className="flex justify-end space-x-4 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-                <div>
-                    <img src="img/logo.png" alt="user" className="w-8 h-8 rounded-full" />
-                </div>
-                <div className="hidden md:flex items-center space-x-2 justify-center">
-                    <p>Trần Hải Nam</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                    </svg>
+            <div className="flex justify-end space-x-4">
+                <div className="relative" onClick={(e) => {
+                    e.stopPropagation(); // Ngăn event bubble lên
+                    setIsOpen(!isOpen);
+                }}>
+                    <div className="flex items-center space-x-4 cursor-pointer">
+                        <img src="img/avt.png" alt="user" className="w-8 h-8 rounded-full" />
+                        <div className="hidden md:flex items-center space-x-2 justify-center">
+                            <p>Trần Hải Nam</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </div>
+                    </div>
+
+
+                    {/* Dropdown menu */}
+                    {isOpen && (
+                        <div ref={dropdownRef} className="absolute right-0 top-12 bg-white shadow-lg rounded-lg border font-medium cursor-auto">
+                            <Link to="#" className="block px-4 py-2 hover:bg-[#f26f33] hover:text-white">Cài đặt</Link>
+                            <Link to="#" className="block px-4 py-2 hover:bg-[#f26f33] hover:text-white">Đăng xuất</Link>
+                        </div>
+                    )}
                 </div>
             </div>
-
-            {/* Dropdown menu */}
-            {isOpen && (
-                <div className="absolute right-6 mt-[150px] bg-white shadow-lg rounded-lg border font-medium cursor-auto">
-                    <Link to="#" className="block px-4 py-2 hover:bg-[#f26f33] hover:text-white">Cài đặt</Link>
-                    <Link to="#" className="block px-4 py-2 hover:bg-[#f26f33] hover:text-white">Đăng xuất</Link>
-                </div>
-            )}
         </nav>
     );
 };
