@@ -43,8 +43,8 @@ export const SettingContent = ({ activeSection, onOpenSidebar }: SettingContentP
                         </div>
 
                         {/* Buttons */}
-                        <div className="flex justify-end space-x-4 pt-4 border-t">
-                            <div className="flex justify-end space-x-4 pt-6 mt-6 border-t">
+                        <div className="flex justify-end space-x-4 ">
+                            <div className="flex justify-end space-x-4 pt-6">
                                 <ButtonCPN>
                                     Hủy
                                 </ButtonCPN>
