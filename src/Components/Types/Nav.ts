@@ -3,6 +3,6 @@ export interface NavState {
 }
 export interface NavItem {
     name: string;
-    icon: string;
+    icon: React.ReactNode;
     to: string;
 }

@@ -8,23 +8,33 @@ export const ChatBoxMain: React.FC<ChatBoxMainProps> = ({ onOpenSidebar }) => {
     const currentChat = chatHistories.find(chat => chat.id === currentChatId);
 
     return (
-        <div className="flex-1 overflow-y-auto p-6">
-            <div className=" md:hidden text-primary text-lg mb-4 text-center" onClick={onOpenSidebar}>Mở danh sách chat</div>
+        <div className="flex flex-col">
+            <div className="md:hidden p-4 border-b">
+                <button
+                    className="text-primary text-lg w-full text-center hover:bg-gray-50 py-2 rounded-lg transition-colors"
+                    onClick={onOpenSidebar}
+                >
+                    Mở danh sách chat
+                </button>
+            </div>
 
-            <ChatMessage
-                id="welcome"
-                message="Xin chào! Tôi có hehe gì cho bạn aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?"
-                role="botchat"
-            />
-
-            {currentChat?.messages.map((msg) => (
+            {/* Messages container */}
+            <div className="flex-1 overflow-y-auto p-6">
                 <ChatMessage
-                    key={msg.id}
-                    id={msg.id}
-                    message={msg.message}
-                    role={msg.role}
+                    id="welcome"
+                    message="Xin chào! Tôi có thể giúp gì cho bạn?"
+                    role="botchat"
                 />
-            ))}
+
+                {currentChat?.messages.map((msg) => (
+                    <ChatMessage
+                        key={msg.id}
+                        id={msg.id}
+                        message={msg.message}
+                        role={msg.role}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

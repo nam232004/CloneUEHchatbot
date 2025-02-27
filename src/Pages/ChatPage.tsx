@@ -1,8 +1,8 @@
 import React from "react";
-import { ChatSideBar } from "../Components/Chat/ChatSideBar";
+import { ChatContainer } from "../Components/Chat/ChatContainer";
 
 const ChatPage: React.FC = () => {
-  return <ChatSideBar />;
+  return <ChatContainer />;
 };
 
 export default ChatPage;
