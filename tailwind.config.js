@@ -6,7 +6,9 @@ const config = {
       colors: {
         primary: "#005f69",
         secondary: "#E5E7EB",
+        tri:"#F36F32",
         messageUser: "#D1FAE5",
+
       },
       scrollbar: {
         none: {
@@ -22,6 +24,7 @@ const config = {
   },
   plugins: [
     require('tailwind-scrollbar'),
+    require('tailwind-scrollbar-hide')
   ],
   variants: {
     scrollbar: ['rounded']

@@ -1,6 +1,6 @@
 import { SettingContentProps } from "../Types/Setting";
-import { ButtonCPN } from "./Button";
-import { FormField } from "./FormField";
+import { ButtonCPN } from "../Button/Button";
+import { FormField } from "../FormField/FormField";
 
 export const SettingContent = ({ activeSection, onOpenSidebar }: SettingContentProps) => {
     return (
@@ -13,18 +13,21 @@ export const SettingContent = ({ activeSection, onOpenSidebar }: SettingContentP
                                 id="username"
                                 label="Tên người dùng"
                                 placeholder="Nhập tên người dùng"
+                                variant="horizontal" 
                                 required
                             />
                             <FormField
                                 id="firstName"
                                 label="Tên"
                                 placeholder="Nhập tên của bạn"
+                                variant="horizontal" 
                                 required
                             />
                             <FormField
                                 id="lastName"
                                 label="Họ"
                                 placeholder="Nhập họ của bạn"
+                                variant="horizontal" 
                                 required
                             />
                             <FormField
@@ -32,6 +35,7 @@ export const SettingContent = ({ activeSection, onOpenSidebar }: SettingContentP
                                 label="Email"
                                 type="email"
                                 placeholder="Nhập địa chỉ email của bạn"
+                                variant="horizontal" 
                                 readOnly={true}
                                 disabled={true}
                             />

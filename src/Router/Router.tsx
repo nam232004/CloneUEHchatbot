@@ -4,6 +4,7 @@ import { Layout } from "../Components/Layout/Layout";
 import ChatPage from "../Pages/ChatPage";
 import AgentPage from "../Pages/AgentPage";
 import SettingPage from "../Pages/SettingPage";
+import AuthPage from "../Pages/AuthPage";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
             { path: "agents", element: <AgentPage /> },
             { path: "setting", element: <SettingPage /> },
         ],
+    },
+    {
+        path: "auth",
+        element: <AuthPage />
     },
     {
         path: "*",
