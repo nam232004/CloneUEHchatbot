@@ -2,21 +2,23 @@ import { useState } from 'react';
 import { Icons } from '../../assets/Icon/Icon';
 import { FormFieldProps } from '../Types/Form';
 
-export const FormField = ({ 
-    id, 
-    label, 
-    type = "text", 
-    placeholder, 
+export const FormField = ({
+    id,
+    name,
+    label,
+    type = "text",
+    placeholder,
     required = false,
     variant = 'horizontal',
-    icon
+    value,
+    onChange
 }: FormFieldProps) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === 'password';
     const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
 
-    const containerClassName = variant === 'horizontal' 
-        ? "grid grid-cols-4 gap-8 items-center" 
+    const containerClassName = variant === 'horizontal'
+        ? "grid grid-cols-4 gap-8 items-center"
         : "flex flex-col space-y-2";
 
     const labelClassName = variant === 'horizontal'
@@ -36,11 +38,13 @@ export const FormField = ({
                 <div className="relative">
                     <input
                         id={id}
-                        name={id}
+                        name={name || id}
                         type={inputType}
                         className="w-full p-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary pr-10"
                         placeholder={placeholder}
                         required={required}
+                        value={value}
+                        onChange={onChange}
                     />
                     {isPassword && (
                         <button

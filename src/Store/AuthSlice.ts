@@ -5,6 +5,13 @@ const AUTH_TOKEN_KEY = 'auth_token';
 const USER_DATA_KEY = 'user_data';
 const USERS_KEY = 'users_db';
 
+const initializeUsersDB = () => {
+    if (!localStorage.getItem(USERS_KEY)) {
+        localStorage.setItem(USERS_KEY, JSON.stringify([]));
+    }
+};
+initializeUsersDB();
+
 const getUsers = (): User[] => {
     const users = localStorage.getItem(USERS_KEY);
     return users ? JSON.parse(users) : [];
@@ -27,6 +34,9 @@ export const login = createAsyncThunk(
         try {
             await new Promise(resolve => setTimeout(resolve, 1000));
 
+            // Initialize users DB if needed
+            initializeUsersDB();
+
             const users = getUsers();
             const user = users.find(u => u.email === email && u.password === password);
 
@@ -45,24 +55,26 @@ export const login = createAsyncThunk(
         }
     }
 );
-
 export const register = createAsyncThunk(
     'auth/register',
-    async (data: { firstName: string; lastName: string; email: string; password: string }, { rejectWithValue }) => {
+    async (data: { registerFirstName: string; registerLastName: string; registerEmail: string; registerPassword: string }, { rejectWithValue }) => {
         try {
             await new Promise(resolve => setTimeout(resolve, 1500));
 
+            // Initialize users DB if needed
+            initializeUsersDB();
+
             const users = getUsers();
-            if (users.some(user => user.email === data.email)) {
+            if (users.some(user => user.email === data.registerEmail)) {
                 throw new Error('Email đã được sử dụng');
             }
 
             const newUser: User = {
-                id: `${users.length + 1}`,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                email: data.email,
-                password: data.password
+                id: `${Date.now()}`,
+                firstName: data.registerFirstName,
+                lastName: data.registerLastName,
+                email: data.registerEmail,
+                password: data.registerPassword
             };
 
             users.push(newUser);

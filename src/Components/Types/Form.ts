@@ -1,17 +1,18 @@
+import { ChangeEvent, ReactNode } from 'react';
+
 export interface FormFieldProps {
     id: string;
-    label: string;
     name?: string;
+    label: string;
     type?: string;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder: string;
+    placeholder?: string;
     required?: boolean;
+    variant?: 'horizontal' | 'vertical';
+    icon?: ReactNode;
+    value?: string | number | readonly string[];
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
     readOnly?: boolean;
     disabled?: boolean;
-    variant?: 'horizontal' | 'vertical'; 
-    icon?: React.ReactNode;
-    
 }
 
 export interface FormProps {

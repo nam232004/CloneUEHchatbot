@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { ButtonCPN } from '../Button/Button';
 import { FormField } from '../FormField/FormField';
 import { useAppDispatch, useAppSelector } from '../Hooks/Hooks';
@@ -11,10 +11,10 @@ export const RegisterForm = ({ onSwitchForm }: FormProps) => {
     const { isLoading, error } = useAppSelector(state => state.auth);
 
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
+        registerFirstName: '',
+        registerLastName: '',
+        registerEmail: '',
+        registerPassword: '',
         confirmPassword: '',
         terms: false
     });
@@ -23,37 +23,67 @@ export const RegisterForm = ({ onSwitchForm }: FormProps) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
+        console.log('Input Change Event:', { name, value, type, checked });
+
         const newValue = type === 'checkbox' ? checked : value;
 
-        console.log(`Thay đổi field: ${name}, Giá trị:`, newValue); // Debug
-
-        setFormData(prev => ({
-            ...prev,
-            [name]: newValue
-        }));
+        setFormData(prevData => {
+            const newData = {
+                ...prevData,
+                [name]: newValue
+            };
+            console.log('Updated Form Data:', newData);
+            return newData;
+        });
     };
 
+    // Add effect to monitor form data changes
+    useEffect(() => {
+        console.log('Form Data Changed:', formData);
+    }, [formData]);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        dispatch(clearError());
+        console.log('Submit Event Triggered');
+        console.log('Current Form Data:', formData);
 
-        if (formData.password !== formData.confirmPassword) {
-            console.log("Mật khẩu không khớp!");
+        dispatch(clearError());
+        setLocalError(null);
+
+        // Validate all fields
+        const emptyFields = Object.entries(formData)
+            .filter(([key, value]) => key !== 'terms' && !value)
+            .map(([key]) => key);
+
+        if (emptyFields.length > 0) {
+            console.log('Empty fields:', emptyFields);
+            setLocalError("Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
-        console.log("Dữ liệu gửi đi:", formData);
+        if (formData.registerPassword !== formData.confirmPassword) {
+            setLocalError("Mật khẩu không khớp!");
+            return;
+        }
 
-        const result = await dispatch(register({
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            password: formData.password
-        }));
+        if (!formData.terms) {
+            setLocalError("Vui lòng đồng ý với điều khoản");
+            return;
+        }
 
-        if (register.fulfilled.match(result)) {
-            onSwitchForm();
+        try {
+            const result = await dispatch(register({
+                registerFirstName: formData.registerFirstName,
+                registerLastName: formData.registerLastName,
+                registerEmail: formData.registerEmail,
+                registerPassword: formData.registerPassword
+            }));
+
+            if (register.fulfilled.match(result)) {
+                onSwitchForm();
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
         }
     };
 
@@ -63,7 +93,7 @@ export const RegisterForm = ({ onSwitchForm }: FormProps) => {
                 <h2 className="text-3xl font-bold text-gray-900">Đăng ký</h2>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6 ">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 {(error || localError) && (
                     <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg">
                         {localError || error}
@@ -102,49 +132,49 @@ export const RegisterForm = ({ onSwitchForm }: FormProps) => {
 
                 <div className="grid grid-cols-2 gap-4">
                     <FormField
-                        id="firstName"
-                        name="firstName"
+                        id="registerFirstName"
+                        name="registerFirstName"
                         label="Tên"
                         type="text"
                         placeholder="Nhập tên của bạn"
                         required
-                        value={formData.firstName}
+                        value={formData.registerFirstName}
                         onChange={handleChange}
                         variant="vertical"
                     />
                     <FormField
-                        id="lastName"
-                        name="lastName"
+                        id="registerLastName"
+                        name="registerLastName"
                         label="Họ"
                         type="text"
                         placeholder="Nhập họ của bạn"
                         required
-                        value={formData.lastName}
+                        value={formData.registerLastName}
                         onChange={handleChange}
                         variant="vertical"
                     />
                 </div>
 
                 <FormField
-                    id="email"
-                    name="email"
+                    id="registerEmail"
+                    name="registerEmail"
                     label="Email"
                     type="email"
                     placeholder="Nhập địa chỉ email của bạn"
                     required
-                    value={formData.email}
+                    value={formData.registerEmail}
                     onChange={handleChange}
                     variant="vertical"
                 />
 
                 <FormField
-                    id="password"
-                    name="password"
+                    id="registerPassword"
+                    name="registerPassword"
                     label="Mật khẩu"
                     type="password"
                     placeholder="Nhập mật khẩu của bạn"
                     required
-                    value={formData.password}
+                    value={formData.registerPassword}
                     onChange={handleChange}
                     variant="vertical"
                 />

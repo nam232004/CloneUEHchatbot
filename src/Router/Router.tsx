@@ -1,17 +1,24 @@
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { Layout } from "../Components/Layout/Layout";
 import ChatPage from "../Pages/ChatPage";
 import AgentPage from "../Pages/AgentPage";
 import SettingPage from "../Pages/SettingPage";
 import AuthPage from "../Pages/AuthPage";
+import { ProtectedRoute } from "../Components/ProtectedRoute/ProtectedRoute";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
+        element: (
+            <ProtectedRoute>
+                <Layout />
+            </ProtectedRoute>
+        ),
         children: [
-            { index: true, element: <ChatPage /> },
+            {
+                index: true,
+                element: <Navigate to="/chat" replace />
+            },
             { path: "chat", element: <ChatPage /> },
             { path: "agents", element: <AgentPage /> },
             { path: "setting", element: <SettingPage /> },
@@ -19,7 +26,7 @@ const router = createBrowserRouter([
     },
     {
         path: "auth",
-        element: <AuthPage />
+        element: <AuthPage />,
     },
     {
         path: "*",
@@ -30,8 +37,6 @@ const router = createBrowserRouter([
         ),
     },
 ]);
-
-
 
 const AppRouter = () => {
     return <RouterProvider router={router} />;
