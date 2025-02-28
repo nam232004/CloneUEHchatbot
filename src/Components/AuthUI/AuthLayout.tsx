@@ -12,7 +12,7 @@ const AuthLayout: React.FC = () => {
     console.log(isLogin);
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-l from-tri/90 to-primary/70">
             <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg overflow-hidden">
                 <div className="flex relative h-[600px]">
 
