@@ -14,7 +14,7 @@ const AuthLayout: React.FC = () => {
             <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg overflow-hidden">
                 <div className="flex relative h-[600px]">
                     {/* Form Container */}
-                    <div className={`w-1/2 p-12 relative z-10 transition-transform duration-700 ease-in-out ${isLogin ? 'translate-x-full' : 'translate-x-0'
+                    <div className={`w-1/2 p-6 relative z-10 transition-transform duration-700 ease-in-out ${isLogin ? 'translate-x-full' : 'translate-x-0'
                         }`}>
                         {isLogin ? (
                             <LoginForm onSwitchForm={handleSwitchForm} />
@@ -30,7 +30,7 @@ const AuthLayout: React.FC = () => {
                         <div className="absolute inset-0 bg-primary">
                             <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70">
                                 <img
-                                    src="/img/avt.png"
+                                    src={isLogin ? "img/ueh-login.png" : "img/register.png"}
                                     alt="Auth illustration"
                                     className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-20"
                                 />
@@ -47,7 +47,7 @@ const AuthLayout: React.FC = () => {
                                 </p>
                                 <button
                                     onClick={handleSwitchForm}
-                                    className="px-8 py-3 border-2 border-white rounded-lg text-white hover:bg-white hover:text-primary transition-colors"
+                                    className="px-8 py-3 border-2 border-white rounded-lg text-white hover:bg-tri/90 hover:text-white transition-colors"
                                 >
                                     {isLogin ? 'Tạo tài khoản mới' : 'Đã có tài khoản? Đăng nhập'}
                                 </button>

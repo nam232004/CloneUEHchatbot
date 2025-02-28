@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef, RefObject } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../Store";
 import { setActiveIndex } from "../../Store/NavSlice";
 import { useClickOutside } from "../Hooks/HandleOutsideClick";
 import { NavItem } from "../Types/Nav";
 import { Icons } from "../../assets/Icon/Icon";
+import { logout } from "../../Store/AuthSlice";
 
 const NavItems: NavItem[] = [
     {
@@ -30,8 +31,10 @@ export const NavHome = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenNav, setIsOpenNav] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const activeIndex = useSelector((state: RootState) => state.nav.activeIndex);
+    const user = useSelector((state: RootState) => state.auth.user);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const navDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +47,10 @@ export const NavHome = () => {
         dispatch(setActiveIndex(currentIndex !== -1 ? currentIndex : null));
     }, [location.pathname, dispatch]);
 
-
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/auth');
+    };
 
     return (
         <nav className="flex items-center justify-between px-6 py-2 bg-white text-primary shadow-md font-bold sticky top-0 z-10 h-16">
@@ -76,7 +82,7 @@ export const NavHome = () => {
                     <div
                         ref={navDropdownRef}
                         className="absolute left-1/2 top-12 transform -translate-x-1/2 bg-white shadow-lg rounded-lg border font-medium cursor-auto w-48"
-                        onClick={(e) => e.stopPropagation()} // Thêm dòng này
+                        onClick={(e) => e.stopPropagation()}
                     >
                         {NavItems.map((item, index) => (
                             <Link
@@ -109,23 +115,34 @@ export const NavHome = () => {
 
             <div className="flex justify-end space-x-4">
                 <div className="relative" onClick={(e) => {
-                    e.stopPropagation(); // Ngăn event bubble lên
+                    e.stopPropagation();
                     setIsOpen(!isOpen);
                 }}>
                     <div className="flex items-center space-x-4 cursor-pointer">
                         <img src="img/avt.png" alt="user" className="w-8 h-8 rounded-full" />
                         <div className="hidden md:flex items-center space-x-2 justify-center">
-                            <p>Trần Hải Nam</p>
+                            <p className="text-sm font-medium">
+                                {user ? `${user.firstName} ${user.lastName}` : 'User'}
+                            </p>
                             <Icons.Dropdown />
                         </div>
                     </div>
 
-
                     {/* Dropdown menu */}
                     {isOpen && (
-                        <div ref={dropdownRef} className="absolute right-0 top-12 bg-white shadow-lg rounded-lg border font-medium cursor-auto">
-                            <Link to="/setting" className="block px-4 py-2 hover:bg-[#f26f33] hover:text-white">Cài đặt</Link>
-                            <Link to="#" className="block px-4 py-2 hover:bg-[#f26f33] hover:text-white">Đăng xuất</Link>
+                        <div ref={dropdownRef} className="absolute right-0 top-12 bg-white shadow-lg rounded-lg border font-medium cursor-auto w-48">
+                            <div className="px-4 py-3 border-b border-gray-200">
+                                <p className="text-sm font-medium text-gray-900">{user?.email}</p>
+                            </div>
+                            <Link to="/setting" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f26f33] hover:text-white">
+                                Cài đặt
+                            </Link>
+                            <button
+                                onClick={handleLogout}
+                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#f26f33] hover:text-white"
+                            >
+                                Đăng xuất
+                            </button>
                         </div>
                     )}
                 </div>

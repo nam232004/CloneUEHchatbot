@@ -139,7 +139,7 @@ export const LoginForm = ({ onSwitchForm }: FormProps) => {
                 <ButtonCPN
                     type="submit"
                     variant="primary"
-                    className="w-full justify-center items-center bg-gradient-to-r from-tri to-primary hover:opacity-90 transition-opacity"
+                    className="w-full justify-center items-center bg-gradient-to-r from-tri/90 to-tri/70 hover:opacity-90 transition-opacity"
                     disabled={isLoading}
                 >
                     {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
