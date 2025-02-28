@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, RefObject } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AppDispatch, RootState } from "../../Store";
+import { RootState } from "../../Store";
 import { setActiveIndex } from "../../Store/NavSlice";
 import { useClickOutside } from "../Hooks/HandleOutsideClick";
 import { NavItem } from "../Types/Nav";
 import { Icons } from "../../assets/Icon/Icon";
 import { logout } from "../../Store/AuthSlice";
+import { useAppDispatch, useAppSelector } from "../Hooks/Hooks";
 
 const NavItems: NavItem[] = [
     {
@@ -24,23 +24,22 @@ const NavItems: NavItem[] = [
         icon: <Icons.Document />,
         to: "/test"
     }
-
 ];
-export const NavHome = () => {
 
+export const NavHome = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenNav, setIsOpenNav] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    const dispatch = useDispatch<AppDispatch>();
-    const activeIndex = useSelector((state: RootState) => state.nav.activeIndex);
-    const user = useSelector((state: RootState) => state.auth.user);
+    const dispatch = useAppDispatch();
+    const activeIndex = useAppSelector((state: RootState) => state.nav.activeIndex);
+    const user = useAppSelector((state: RootState) => state.auth.user);
+
     const dropdownRef = useRef<HTMLDivElement>(null);
     const navDropdownRef = useRef<HTMLDivElement>(null);
 
     useClickOutside(dropdownRef as RefObject<HTMLElement>, () => setIsOpen(false));
     useClickOutside(navDropdownRef as RefObject<HTMLElement>, () => setIsOpenNav(false));
-
 
     useEffect(() => {
         const currentIndex = NavItems.findIndex(item => item.to === location.pathname);
@@ -52,6 +51,9 @@ export const NavHome = () => {
         navigate('/auth');
     };
 
+    // Tính toán display name
+    const displayName = user ? `${user.firstName} ${user.lastName}` : 'User';
+
     return (
         <nav className="flex items-center justify-between px-6 py-2 bg-white text-primary shadow-md font-bold sticky top-0 z-10 h-16">
             {/* Logo */}
@@ -62,7 +64,7 @@ export const NavHome = () => {
                 <div className="name hidden md:block">UEH Chatbot</div>
             </div>
 
-            {/* Dropdown responsiveeeeee */}
+            {/* Dropdown responsive */}
             <div className="md:hidden relative">
                 <div
                     className="flex items-center space-x-2 justify-center cursor-pointer"
@@ -122,7 +124,7 @@ export const NavHome = () => {
                         <img src="img/avt.png" alt="user" className="w-8 h-8 rounded-full" />
                         <div className="hidden md:flex items-center space-x-2 justify-center">
                             <p className="text-sm font-medium">
-                                {user ? `${user.firstName} ${user.lastName}` : 'User'}
+                                {displayName}
                             </p>
                             <Icons.Dropdown />
                         </div>
@@ -130,10 +132,7 @@ export const NavHome = () => {
 
                     {/* Dropdown menu */}
                     {isOpen && (
-                        <div ref={dropdownRef} className="absolute right-0 top-12 bg-white shadow-lg rounded-lg border font-medium cursor-auto w-48">
-                            <div className="px-4 py-3 border-b border-gray-200">
-                                <p className="text-sm font-medium text-gray-900">{user?.email}</p>
-                            </div>
+                        <div ref={dropdownRef} className="absolute right-0 top-12 bg-white shadow-lg rounded-lg border font-medium cursor-auto w-28">
                             <Link to="/setting" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f26f33] hover:text-white">
                                 Cài đặt
                             </Link>

@@ -6,7 +6,7 @@ export interface SettingContentProps {
 export interface SettingSidebarProps {
     activeSection: string;
     setActiveSection: (section: string) => void;
-    isSidebarResponsive: boolean;
-    setIsSidebarResponsive: (value: boolean) => void;
+    isSidebarOpen: boolean;
+    setIsSidebarOpen: (isOpen: boolean) => void;
 }
 

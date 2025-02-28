@@ -1,7 +1,8 @@
 import React from "react";
+import { AgentsLayout } from "../Components/Agents/AgentsLayout";
 
 const ChatPage: React.FC = () => {
-    return <span>agent page</span>;
+    return <AgentsLayout />;
 };
 
 export default ChatPage;

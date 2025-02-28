@@ -34,7 +34,6 @@ export const login = createAsyncThunk(
         try {
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Initialize users DB if needed
             initializeUsersDB();
 
             const users = getUsers();
@@ -61,7 +60,6 @@ export const register = createAsyncThunk(
         try {
             await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // Initialize users DB if needed
             initializeUsersDB();
 
             const users = getUsers();
@@ -71,6 +69,7 @@ export const register = createAsyncThunk(
 
             const newUser: User = {
                 id: `${Date.now()}`,
+                username: `${data.registerFirstName.toLowerCase()}_${data.registerLastName.toLowerCase()}`,
                 firstName: data.registerFirstName,
                 lastName: data.registerLastName,
                 email: data.registerEmail,
@@ -104,6 +103,10 @@ const authSlice = createSlice({
         },
         clearError: (state) => {
             state.error = null;
+        },
+        updateUserInAuth: (state, action) => {
+            state.user = action.payload;
+            localStorage.setItem(USER_DATA_KEY, JSON.stringify(action.payload));
         }
     },
     extraReducers: (builder) => {
@@ -137,5 +140,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, updateUserInAuth } = authSlice.actions;
 export default authSlice.reducer;
