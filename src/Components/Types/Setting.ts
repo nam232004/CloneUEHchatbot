@@ -8,5 +8,7 @@ export interface SettingSidebarProps {
     setActiveSection: (section: string) => void;
     isSidebarOpen: boolean;
     setIsSidebarOpen: (isOpen: boolean) => void;
+    isSidebarReponsive?: boolean;
+    setIsSidebarReponsive?: (isOpen: boolean) => void;
 }
 

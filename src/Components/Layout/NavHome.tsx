@@ -55,7 +55,7 @@ export const NavHome = () => {
     const displayName = user ? `${user.firstName} ${user.lastName}` : 'User';
 
     return (
-        <nav className="flex items-center justify-between px-6 py-2 bg-white text-primary shadow-md font-bold sticky top-0 z-10 h-16">
+        <nav className="flex items-center justify-between px-6 py-2 bg-white text-primary shadow-md font-bold sticky top-0 z-30 h-16">
             {/* Logo */}
             <div className="flex items-center justify-center space-x-4 cursor-pointer">
                 <div className="logo">
