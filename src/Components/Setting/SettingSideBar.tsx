@@ -13,8 +13,6 @@ export const SettingSidebar = ({
         },
         { id: 'test', label: 'test', icon: 'test' },
     ];
-
-    console.log(isSidebarOpen);
     return (
         <div className="relative">
             <aside className={`

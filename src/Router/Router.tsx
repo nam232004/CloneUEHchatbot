@@ -5,6 +5,7 @@ import AgentPage from "../Pages/AgentPage";
 import SettingPage from "../Pages/SettingPage";
 import AuthPage from "../Pages/AuthPage";
 import { ProtectedRoute } from "../Components/ProtectedRoute/ProtectedRoute";
+import FilePage from "../Pages/FilePage";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
             { path: "chat", element: <ChatPage /> },
             { path: "agents", element: <AgentPage /> },
             { path: "setting", element: <SettingPage /> },
+            { path: "file", element: <FilePage /> },
         ],
     },
     {

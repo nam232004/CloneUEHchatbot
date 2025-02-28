@@ -22,8 +22,9 @@ const config = {
     },
   },
   plugins: [
+    require('tailwind-scrollbar'),
     require('tailwind-scrollbar-hide'),
-    require('@tailwindcss/line-clamp')
+    require('@tailwindcss/line-clamp'),
   ],
   variants: {
     scrollbar: ['rounded'],

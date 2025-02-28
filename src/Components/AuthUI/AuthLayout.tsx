@@ -9,13 +9,14 @@ const AuthLayout: React.FC = () => {
         setIsLogin(!isLogin);
     };
 
+    console.log(isLogin);
+
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
             <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg overflow-hidden">
                 <div className="flex relative h-[600px]">
-                    {/* Form Container */}
-                    <div className={`w-1/2 p-6 relative z-10 transition-transform duration-700 ease-in-out ${isLogin ? 'translate-x-full' : 'translate-x-0'
-                        }`}>
+
+                    <div className={`w-full md:w-1/2 p-6 relative z-10 transition-transform duration-700 ease-in-out ${isLogin ? 'md:translate-x-full' : 'md:translate-x-0'}`}>
                         {isLogin ? (
                             <LoginForm onSwitchForm={handleSwitchForm} />
                         ) : (
@@ -24,8 +25,7 @@ const AuthLayout: React.FC = () => {
                     </div>
 
                     <div
-                        className={`absolute z-20 top-0 w-1/2 h-full transition-all duration-700 ease-in-out transform ${isLogin ? 'left-0' : 'translate-x-full'
-                            }`}
+                        className={`absolute z-20 top-0 w-full md:w-1/2 h-full transition-all duration-700 ease-in-out transform ${isLogin ? 'left-0' : 'translate-x-full'} md:block hidden`}
                     >
                         <div className="absolute inset-0 bg-primary">
                             <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70">

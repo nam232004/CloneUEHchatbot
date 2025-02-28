@@ -37,7 +37,6 @@ export const RegisterForm = ({ onSwitchForm }: FormProps) => {
         });
     };
 
-    // Add effect to monitor form data changes
     useEffect(() => {
         console.log('Form Data Changed:', formData);
     }, [formData]);
@@ -50,7 +49,6 @@ export const RegisterForm = ({ onSwitchForm }: FormProps) => {
         dispatch(clearError());
         setLocalError(null);
 
-        // Validate all fields
         const emptyFields = Object.entries(formData)
             .filter(([key, value]) => key !== 'terms' && !value)
             .map(([key]) => key);

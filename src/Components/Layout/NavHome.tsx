@@ -22,7 +22,7 @@ const NavItems: NavItem[] = [
     {
         name: "File Manager",
         icon: <Icons.Document />,
-        to: "/test"
+        to: "/file"
     }
 ];
 
